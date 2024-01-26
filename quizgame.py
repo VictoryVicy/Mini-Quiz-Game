@@ -1,6 +1,6 @@
 print("Selamat datang di Quiz Game")
 
-bermain = input("Apakah kamu ingin bermain? (Main/tidak) ")
+bermain = input("Apakah kamu ingin bermain? (Main/tidak/mungkin) ")
 
 if bermain.lower() != "Main":
     quit()
