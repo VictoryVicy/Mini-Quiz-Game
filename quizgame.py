@@ -1,41 +1,81 @@
-print("Selamat datang di Quiz Game")
+import tkinter as tk
+from tkinter import messagebox
 
-bermain = input("Apakah kamu ingin bermain? (main/tidak/mungkin) ")
+class QuizApp:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Quiz Game")
 
-if bermain.lower() != "main":
-    quit()
+        self.label_welcome = tk.Label(master, text="Selamat datang di Quiz Game", font=("Helvetica", 14))
+        self.label_welcome.pack(pady=10)
 
-print("Oke, mari kita mulai!")
-skor = 0
+        self.label_main = tk.Label(master, text="Apakah kamu ingin bermain? (Main/Tidak)", font=("Helvetica", 12))
+        self.label_main.pack()
 
-jawaban = input("Siapa presiden indonesia sekarang? ")
-if jawaban.lower() == "joko widodo":
-    print("Selamat, kamu benar!")
-    skor += 1
-else:
-    print("Maaf, kamu salah!")
+        self.entry_main = tk.Entry(master)
+        self.entry_main.pack()
 
-jawaban = input("Siapa calon presiden Indonesia tahun 2024 nomor 1? ")
-if jawaban.lower() == "anies baswedan":
-    print("Selamat, kamu benar!")
-    skor += 1
-else:
-    print("Maaf, kamu salah!")
+        self.button_start = tk.Button(master, text="Mulai", command=self.mulai_game)
+        self.button_start.pack(pady=10)
 
-jawaban = input("Siapa calon presiden Indonesia tahun 2024 nomor 2? ")
-if jawaban.lower() == "prabowo subianto":
-    print("Selamat, kamu benar!")
-    skor += 1
-else:
-    print("Maaf, kamu salah!")
+        self.pertanyaan = [
+            ("Siapa presiden Indonesia sekarang?", "joko widodo"),
+            ("Siapa calon presiden Indonesia tahun 2024 nomor 1?", "anies baswedan"),
+            ("Siapa calon presiden Indonesia tahun 2024 nomor 2?", "prabowo subianto"),
+            ("Siapa calon presiden Indonesia tahun 2024 nomor 3?", "ganjar pranowo"),
+        ]
 
-jawaban = input("Siapa calon presiden Indonesia tahun 2024 nomor 3? ")
-if jawaban.lower() == "ganjar pranowo":
-    print("Selamat, kamu benar!")
-    skor += 1
-else:
-    print("Maaf, kamu salah!")
+        self.index_pertanyaan = 0
 
-print("Kamu menjawab " + str(skor) + " pertanyaan dengan benar")
-print("Kemampuan dalam menjawab quiz = " + str((skor / 4) * 100) + " %.")
+    def cek_jawaban(self):
+        jawaban = self.entry_main.get().strip().lower()
+        pertanyaan, jawaban_benar = self.pertanyaan[self.index_pertanyaan]
 
+        if jawaban == jawaban_benar:
+            messagebox.showinfo("Jawaban Benar", "Selamat, kamu benar!")
+        else:
+            messagebox.showerror("Jawaban Salah", "Maaf, kamu salah!")
+
+        self.index_pertanyaan += 1
+
+        if self.index_pertanyaan < len(self.pertanyaan):
+            self.tampilkan_pertanyaan()
+        else:
+            self.tampilkan_skor()
+
+    def mulai_game(self):
+        bermain = self.entry_main.get().strip().lower()
+        if bermain == "main":
+            self.button_start.destroy()
+            self.tampilkan_pertanyaan()
+
+        else:
+            messagebox.showerror("Exit quiz game", "Baiklah sampai berjumpa lain waktu")
+            self.master.destroy()
+
+    def tampilkan_pertanyaan(self):
+        if hasattr(self, 'entry_main'):
+            self.entry_main.destroy()
+            del self.entry_main
+        if hasattr(self, 'button_next'):
+            self.button_next.destroy()
+            del self.button_next
+
+        pertanyaan, _ = self.pertanyaan[self.index_pertanyaan]
+        self.label_main.config(text=pertanyaan)
+        self.entry_main = tk.Entry(self.master)
+        self.entry_main.pack()
+        self.button_next = tk.Button(self.master, text="Selanjutnya", command=self.cek_jawaban)
+        self.button_next.pack()
+
+    def tampilkan_skor(self):
+        messagebox.showinfo("Skor Akhir", "Anda telah menyelesaikan " + str(self.index_pertanyaan) + " pertanyaan dengan benar")
+        messagebox.showinfo("Skor Akhir", "Kemampuan anda dalam menjawab quiz = " + str((self.index_pertanyaan / len(self.pertanyaan)) * 100) + "%.")
+        self.master.destroy()
+
+# Membuat jendela utama
+root = tk.Tk()
+app = QuizApp(root)
+
+# Menjalankan aplikasi
+root.mainloop()
