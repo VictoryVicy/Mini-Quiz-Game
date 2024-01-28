@@ -73,9 +73,7 @@ class QuizApp:
         messagebox.showinfo("Skor Akhir", "Kemampuan anda dalam menjawab quiz = " + str((self.index_pertanyaan / len(self.pertanyaan)) * 100) + "%.")
         self.master.destroy()
 
-# Membuat jendela utama
 root = tk.Tk()
 app = QuizApp(root)
 
-# Menjalankan aplikasi
 root.mainloop()
