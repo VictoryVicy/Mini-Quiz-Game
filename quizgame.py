@@ -6,11 +6,11 @@ class QuizApp:
         self.master = master
         self.master.title("Quiz Game")
 
-        self.label_welcome = tk.Label(master, text="Selamat datang di Quiz Game", font=("Helvetica", 14))
+        self.label_welcome = tk.Label(master, text="Selamat datang di Mini Quiz Game", font=("Helvetica", 14))
         self.label_welcome.pack(pady=10)
 
         self.label_main = tk.Label(master, text="Apakah kamu ingin bermain? (Main/Tidak)", font=("Helvetica", 12))
-        self.label_main.pack()
+        self.label_main.pack(pady=5)
 
         self.entry_main = tk.Entry(master)
         self.entry_main.pack()
@@ -50,7 +50,7 @@ class QuizApp:
             self.tampilkan_pertanyaan()
 
         else:
-            messagebox.showerror("Exit quiz game", "Baiklah sampai berjumpa lain waktu")
+            messagebox.showerror("Keluar quiz", "Baiklah sampai berjumpa lain waktu")
             self.master.destroy()
 
     def tampilkan_pertanyaan(self):
@@ -66,7 +66,7 @@ class QuizApp:
         self.entry_main = tk.Entry(self.master)
         self.entry_main.pack()
         self.button_next = tk.Button(self.master, text="Selanjutnya", command=self.cek_jawaban)
-        self.button_next.pack()
+        self.button_next.pack(pady=10)
 
     def tampilkan_skor(self):
         messagebox.showinfo("Skor Akhir", "Anda telah menyelesaikan " + str(self.index_pertanyaan) + " pertanyaan dengan benar")
